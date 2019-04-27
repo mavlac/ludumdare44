@@ -25,6 +25,7 @@ public class PlayerLook : MonoBehaviour
 	private Quaternion cameraTargeRot;
 
 	private float vertAxisClamp;
+	private float mouseSensitivityMultiplier;
 
 
 
@@ -50,13 +51,19 @@ public class PlayerLook : MonoBehaviour
 		if (Cursor.lockState != CursorLockMode.Locked) return;
 		if (!AppManager.mouselookReady) return;
 		
+		// mouse half sensitive on scoping
+		if (gameManager.scopeManager.scoping)
+			mouseSensitivityMultiplier = 0.25f;
+		else
+			mouseSensitivityMultiplier = 1f;
+		
 		
 		//Debug.Log(Input.GetAxis(mouseXInputName) + ":" + Input.GetAxis(mouseYInputName));
 		
 		float xRot = Input.GetAxis(mouseXInputName);
-		xRot *= mouseSensitivity * Time.deltaTime;
+		xRot *= mouseSensitivity * mouseSensitivityMultiplier * Time.deltaTime;
 		float yRot = Input.GetAxis(mouseYInputName);
-		yRot *= mouseSensitivity * Time.deltaTime;
+		yRot *= mouseSensitivity * mouseSensitivityMultiplier * Time.deltaTime;
 		
 		if (invertVertical) yRot*=-1f;
 		
