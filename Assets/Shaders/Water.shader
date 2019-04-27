@@ -19,7 +19,7 @@ Shader "Custom/Water" {
 		
 		_VertDistTex ("Vertex Distort Map", 2D) = "gray" {}
 		_VertDistDens ("Density", range(0, 10)) = 0
-		_VertDistAmount ("Amount", range(-1, 1)) = 0
+		_VertDistAmount ("Amount", range(-10, 10)) = 0
 		_VertDistSpeed ("Speed", range(0, 10)) = 0
 	}
 	SubShader {
@@ -57,9 +57,8 @@ Shader "Custom/Water" {
 			
 			float4 vo;
 			vo = tex2Dlod(_VertDistTex, v.vertex * _VertDistDens);
-			v.vertex.y += sin((_Time.x  * _VertDistSpeed) + vo.r + o.uv_MainTex.y) * _VertDistAmount;
-			v.vertex.y -= sin((_Time.x  * _VertDistSpeed) + vo.g + o.uv_MainTex.x) * _VertDistAmount;
-			
+			v.vertex.z += sin((_Time.y  * _VertDistSpeed) + vo.r + o.uv_MainTex.y) * _VertDistAmount;
+			v.vertex.z -= sin((_Time.y  * _VertDistSpeed) + vo.g + o.uv_MainTex.x) * _VertDistAmount;
 			o.localPos = v.vertex.xyz;
 		}
 

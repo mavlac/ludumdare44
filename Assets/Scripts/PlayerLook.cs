@@ -10,7 +10,9 @@ public class PlayerLook : MonoBehaviour
 	
 	public float mouseSensitivity;
 	public bool invertVertical = true;
-
+	
+	public float clampY = 90f;
+	
 	public bool smooth;
 	public float smoothTime = 5f;
 	
@@ -62,17 +64,17 @@ public class PlayerLook : MonoBehaviour
 		
 		vertAxisClamp += yRot;
 
-		if(vertAxisClamp > 90.0f)
+		if(vertAxisClamp > clampY)
 		{
-			vertAxisClamp = 90.0f;
+			vertAxisClamp = clampY;
 			yRot = 0.0f;
-			ClampVertAxisRotationToValue(270.0f);
+			ClampVertAxisRotationToValue(360f - clampY);
 		}
-		else if (vertAxisClamp < -90.0f)
+		else if (vertAxisClamp < -clampY)
 		{
-			vertAxisClamp = -90.0f;
+			vertAxisClamp = -clampY;
 			yRot = 0.0f;
-			ClampVertAxisRotationToValue(90.0f);
+			ClampVertAxisRotationToValue(clampY);
 		}
 
 		
@@ -95,9 +97,10 @@ public class PlayerLook : MonoBehaviour
 
 	private void ClampVertAxisRotationToValue(float value)
 	{
-		Vector3 eulerRotation = transform.localEulerAngles;
+		Vector3 eulerRotation = playerCamera.localEulerAngles;
 		eulerRotation.x = value;
-		transform.localEulerAngles = eulerRotation;
+		
+		playerCamera.localEulerAngles = eulerRotation;
 	}
 	
 }
