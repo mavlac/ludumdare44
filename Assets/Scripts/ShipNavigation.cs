@@ -24,6 +24,8 @@ public class ShipNavigation : MonoBehaviour
 		helmWheel.Turn(dir);
 		penguin.WaveWing(dir);
 		
+		gameManager.appManager.soundManager.Play(SoundManager.soundId.navOption);
+		
 		StopAllCoroutines();
 		StartCoroutine(TurnCoroutine(dir));	
 		turning = true;

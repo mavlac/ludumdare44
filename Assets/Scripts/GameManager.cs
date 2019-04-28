@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour {
 				appManager.FreezeTimescale();
 				appManager.MenuEntered();
 				
+				appManager.soundManager.Play(SoundManager.soundId.uiClick);
 				return;
 			}
 			else
@@ -208,7 +209,12 @@ public class GameManager : MonoBehaviour {
 				crosshair.NoHint();
 				
 				// cancel nav selection on looking outside of rear area
-				if (navSelection) navSelection = false;
+				if (navSelection)
+				{
+					navSelection = false;
+					
+					appManager.soundManager.Play(SoundManager.soundId.noAction);
+				}
 			}
 		}
 		else
@@ -221,6 +227,8 @@ public class GameManager : MonoBehaviour {
 	void BeginNavSelection()
 	{
 		if (navSelection) return;
+		
+		appManager.soundManager.Play(SoundManager.soundId.navSelect);
 		
 		navSelectionPlayerYOrigin = playerLook.transform.localEulerAngles.y;
 		navSelection = true;
@@ -242,6 +250,7 @@ public class GameManager : MonoBehaviour {
 		ship.shipNavigation.penguin.BothWingsUp();
 		
 		Debug.Log("ship collision!");
+		appManager.soundManager.Play(SoundManager.soundId.crash);
 		
 		crosshair.SetHintToGameOver();
 		if (scopeManager.scoping) scopeManager.Deactivate();

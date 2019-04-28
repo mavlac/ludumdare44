@@ -67,6 +67,8 @@ public class GUI : MonoBehaviour
 		SlideOutTitle();
 		
 		appManager.BeginGame();
+		
+		appManager.soundManager.Play(SoundManager.soundId.uiClick);
 	}
 	public void RestoreMenuOverlay()
 	{
@@ -123,6 +125,8 @@ public class GUI : MonoBehaviour
 	public void InvertMouseValChanged(bool newValue) 
 	{
 		appManager.gameManager.playerLook.SetInvert(newValue);
+		
+		appManager.soundManager.Play(SoundManager.soundId.uiClick);
 	}
 	
 	
@@ -130,6 +134,7 @@ public class GUI : MonoBehaviour
 	{
 		menu.SetActive(false);
 		
+		appManager.soundManager.Play(SoundManager.soundId.uiClick);
 		appManager.Exit();
 	}
 }

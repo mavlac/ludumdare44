@@ -15,6 +15,7 @@ public class AppManager : MonoBehaviour {
 	
 	[Space]
 	public ScreenFader screenFader;
+	public SoundManager soundManager;
 	public GameManager gameManager;
 	public GUI gui;
 	

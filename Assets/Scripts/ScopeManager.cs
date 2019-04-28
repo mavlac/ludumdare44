@@ -35,6 +35,8 @@ public class ScopeManager : MonoBehaviour
 		gameManager.crosshair.HideEverything();
 		scoping = true;
 		
+		gameManager.appManager.soundManager.Play(SoundManager.soundId.scopeIn);
+		
 		StopAllCoroutines();
 		StartCoroutine(CameraFOVZoomCoroutine());
 	}
@@ -60,6 +62,8 @@ public class ScopeManager : MonoBehaviour
 	{
 		RenderSettings.fogDensity = defaultFog;
 		scoping = false;
+		
+		gameManager.appManager.soundManager.Play(SoundManager.soundId.scopeOut);
 		
 		StopAllCoroutines();
 		StartCoroutine(CameraFOVRestoreCoroutine());
