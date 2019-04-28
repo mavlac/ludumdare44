@@ -29,11 +29,11 @@ public class PlayerLook : MonoBehaviour
 
 
 
-	private void Awake()
+	void Awake()
 	{
-		gameManager.appManager.LockCursor();
+		GetInvert();
 	}
-	
+
 	void Start() {
 		playerTargetRot = playerBody.localRotation;
 		cameraTargeRot = playerCamera.localRotation;
@@ -110,4 +110,18 @@ public class PlayerLook : MonoBehaviour
 		playerCamera.localEulerAngles = eulerRotation;
 	}
 	
+	
+	
+	
+	public void GetInvert()
+	{
+		invertVertical = ((PlayerPrefs.GetInt("pref_mouseinvert", 1) == 1) ? true : false);
+	}
+	public void SetInvert(bool newValue)
+	{
+		PlayerPrefs.SetInt("pref_mouseinvert", newValue ? 1 : 0);
+		invertVertical = newValue;
+		
+		Debug.Log("mouse invert set to: " + invertVertical);
+	}
 }

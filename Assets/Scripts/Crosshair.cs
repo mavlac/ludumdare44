@@ -14,7 +14,12 @@ public class Crosshair : MonoBehaviour
 	public Color dotHintColor;
 	public GameObject hintNav;
 	public GameObject hintNavWait;
+	public GameObject hintNavOptions;
+	public Image hintNavOptionLeft;
+	public Image hintNavOptionRight;
+	public Sprite arrow, arrowFocus;
 	public Color dotNavColor;
+	public GameObject hintGameOver;
 	
 	
 	Color dotDefaultColor;
@@ -22,6 +27,7 @@ public class Crosshair : MonoBehaviour
 	void Awake()
 	{
 		dotDefaultColor = centerDot.color;
+		HideEverything();
 	}
 	
 	
@@ -32,6 +38,7 @@ public class Crosshair : MonoBehaviour
 		hintScope.SetActive(!gameManager.playerUsedScopeAction);
 		hintNav.SetActive(false);
 		hintNavWait.SetActive(false);
+		hintNavOptions.SetActive(false);
 	}
 	public void SetHintToNav()
 	{
@@ -39,6 +46,7 @@ public class Crosshair : MonoBehaviour
 		hintScope.SetActive(false);
 		hintNav.SetActive(!gameManager.playerUsedNavAction);
 		hintNavWait.SetActive(false);
+		hintNavOptions.SetActive(false);
 	}
 	public void SetHintToWait()
 	{
@@ -46,6 +54,30 @@ public class Crosshair : MonoBehaviour
 		hintScope.SetActive(false);
 		hintNav.SetActive(false);
 		hintNavWait.SetActive(true);
+		hintNavOptions.SetActive(false);
+	}
+	public void SetHintToNavOptions(int dir)
+	{
+		centerDot.color = dotNavColor;
+		hintScope.SetActive(false);
+		hintNav.SetActive(false);
+		hintNavWait.SetActive(false);
+		hintNavOptions.SetActive(true);
+		switch(dir)
+		{
+			case -1:
+				hintNavOptionLeft.sprite = arrowFocus;
+				hintNavOptionRight.sprite = arrow;
+				break;
+			case 1:
+				hintNavOptionLeft.sprite = arrow;
+				hintNavOptionRight.sprite = arrowFocus;
+				break;
+			case 0:
+				hintNavOptionLeft.sprite = arrow;
+				hintNavOptionRight.sprite = arrow;
+				break;
+		}
 	}
 	public void NoHint()
 	{
@@ -53,6 +85,7 @@ public class Crosshair : MonoBehaviour
 		hintScope.SetActive(false);
 		hintNav.SetActive(false);
 		hintNavWait.SetActive(false);
+		hintNavOptions.SetActive(false);
 	}
 	public void HideEverything()
 	{
@@ -60,5 +93,14 @@ public class Crosshair : MonoBehaviour
 		hintScope.SetActive(false);
 		hintNav.SetActive(false);
 		hintNavWait.SetActive(false);
+		hintNavOptions.SetActive(false);
+		hintGameOver.SetActive(false);
+	}
+	
+	
+	public void SetHintToGameOver()
+	{
+		HideEverything();
+		hintGameOver.SetActive(true);
 	}
 }

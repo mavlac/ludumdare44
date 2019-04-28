@@ -25,6 +25,14 @@ public class World : MonoBehaviour
 	{
 		if (Vector3.Distance(lastSpawnShipPos, gameManager.ship.transform.position) > distanceDeltaToSpawn)
 			SpawnObstacle();
+		
+		Debug.DrawLine(
+			gameManager.ship.transform.position, gameManager.ship.transform.position + gameManager.ship.transform.forward * spawnDistance,
+			Color.green);
+		Debug.DrawLine(
+			gameManager.ship.transform.position + gameManager.ship.transform.forward * spawnDistance + gameManager.ship.transform.right * Random.Range(-spawnSpread, spawnSpread),
+			gameManager.ship.transform.position + gameManager.ship.transform.forward * spawnDistance + gameManager.ship.transform.right * Random.Range(-spawnSpread, spawnSpread),
+			Color.green);
 	}
 	
 	
@@ -34,7 +42,7 @@ public class World : MonoBehaviour
 		lastSpawnShipPos = gameManager.ship.transform.position;
 		
 		Vector3 pos = gameManager.ship.transform.position + gameManager.ship.transform.forward * spawnDistance;
-		pos.x += Random.Range(-spawnSpread, spawnSpread);
+		pos += gameManager.ship.transform.right * Random.Range(-spawnSpread, spawnSpread);
 		Quaternion rot = Quaternion.Euler(0, Random.Range(0, 360f), 0);
 		Instantiate(obstacle[Random.Range(0, obstacle.Length)], pos, rot);
 	}

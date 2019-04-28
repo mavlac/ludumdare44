@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
 	public enum ClickAction {
 		Scope,
 		Nav,
+		NavigateLeft,
+		NavigateRight,
 		No
 	}
 	
@@ -32,13 +34,22 @@ public class GameManager : MonoBehaviour {
 	[HideInInspector]
 	public bool playerUsedNavAction = false;
 	
+	
 	ClickAction availableAction = ClickAction.No;
+	bool navSelection = false;
+	float navSelectionPlayerYOrigin;
 	
 	
 	bool playerAlive = true;
 	
 	
 	void Update () {
+		
+		// only game mechanics
+		if (appManager.appState != AppManager.AppState.Game) return;
+		
+		
+		
 		
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.R)) appManager.RestartCurrentScene();
@@ -49,23 +60,46 @@ public class GameManager : MonoBehaviour {
 #endif
 		
 		// escape
-		if (Input.GetButtonDown("Cancel")) {
-			appManager.UnlockCursor();
+		if (Input.GetButtonDown("Cancel"))
+		{
 			
-			// TODO show menu
+			if (playerAlive)
+			{
+				crosshair.HideEverything();
+				
+				appManager.UnlockCursor();
+				appManager.FreezeTimescale();
+				appManager.MenuEntered();
+				
+				return;
+			}
+			else
+			{
+				// ESC when game over: quit to title
+				
+				//appManager.UnlockCursor();
+				//appManager.RestartCurrentScene();
+				
+				// now as a callback of fade
+				appManager.screenFader.FadeScreenOut();
+			}
 		}
+		
+		
 		
 		
 		
 		// following mechanics when game in progress only
 		if (!playerAlive) return;
 		
+		
 		// enable possible actions dependent on camera angle
-		// (not while scoping)
-		if (!scopeManager.scoping)
-			CheckCameraAngle();
-		else
+			// (not while scoping)
+		if (scopeManager.scoping)
 			availableAction = ClickAction.No;
+		else
+			PickMouseActionByCamAngle();
+		
 		
 		// mouse click
 		if (Input.GetMouseButtonDown(0)) {
@@ -73,17 +107,33 @@ public class GameManager : MonoBehaviour {
 			if (Cursor.lockState != CursorLockMode.Locked)
 			{
 				appManager.LockCursor();
+				appManager.RestoreTimescale();
 			}
 			else {
 				switch(availableAction)
 				{
 					case ClickAction.Scope:
-						//playerUsedScopeAction = true;
+						//playerUsedScopeAction = true; // to hide hint every next time - abandoned
 						scopeManager.Activate();
 						break;
 					
 					case ClickAction.Nav:
 						//playerUsedNavAction = true;
+						BeginNavSelection();
+						break;
+						
+					case ClickAction.NavigateLeft:
+						ship.shipNavigation.InitiateTurn(-1);
+						EndNavSelection();
+						break;
+					
+					case ClickAction.NavigateRight:
+						ship.shipNavigation.InitiateTurn(1);
+						EndNavSelection();
+						break;
+					
+					case ClickAction.No:
+						if (navSelection) EndNavSelection();
 						break;
 					
 					default:
@@ -98,44 +148,87 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	
-	public void CheckCameraAngle()
+	public void PickMouseActionByCamAngle()
 	{
 		// check camera angle
 		
 		float horizLook = playerLook.transform.localEulerAngles.y;
 		float vertLook = playerLook.playerCamera.localEulerAngles.x;
 		
+		// vertical bounds
 		if (vertLook > 360f-vertAngle/2 || vertLook < vertAngle/2)
 		{
+			// front
 			if (horizLook > (360f-frontAngle/2) || horizLook < (frontAngle/2))
 			{
 				availableAction = ClickAction.Scope;
 				crosshair.SetHintToScope();
 			}
+			// rear
 			else if (horizLook > (180f-rearAngle/2) && horizLook < (180+rearAngle/2))
 			{
-				if (!ship.shipNavigation.turning)
+				// nav selection in progress
+				// decide direction to turn
+				if (navSelection)
+				{
+					const float selDeadZone = 3f;
+					// option of selection
+					if (playerLook.transform.localEulerAngles.y < navSelectionPlayerYOrigin - selDeadZone)
+					{
+						crosshair.SetHintToNavOptions(-1);
+						availableAction = ClickAction.NavigateLeft;
+					}
+					else if (playerLook.transform.localEulerAngles.y > navSelectionPlayerYOrigin + selDeadZone)
+					{
+						crosshair.SetHintToNavOptions(1);
+						availableAction = ClickAction.NavigateRight;
+					}
+					else
+					{
+						crosshair.SetHintToNavOptions(0);
+						availableAction = ClickAction.No;
+					}
+				}
+				// turning already in progress
+				else if (ship.shipNavigation.turning)
+				{
+					availableAction = ClickAction.No;
+					crosshair.SetHintToWait();
+				}
+				// turn available
+				else
 				{
 					availableAction = ClickAction.Nav;
 					crosshair.SetHintToNav();
-				}
-				else
-				{
-					// already turning in progress
-					availableAction = ClickAction.No;
-					crosshair.SetHintToWait();
 				}
 			}
 			else
 			{
 				availableAction = ClickAction.No;
 				crosshair.NoHint();
+				
+				// cancel nav selection on looking outside of rear area
+				if (navSelection) navSelection = false;
 			}
 		}
 		else
 			crosshair.NoHint();
 	}
 	
+	
+	
+	
+	void BeginNavSelection()
+	{
+		if (navSelection) return;
+		
+		navSelectionPlayerYOrigin = playerLook.transform.localEulerAngles.y;
+		navSelection = true;
+	}
+	void EndNavSelection()
+	{
+		if (navSelection) navSelection = false;
+	}
 	
 	
 	
@@ -150,7 +243,7 @@ public class GameManager : MonoBehaviour {
 		
 		Debug.Log("ship collision!");
 		
-		crosshair.HideEverything();
+		crosshair.SetHintToGameOver();
 		if (scopeManager.scoping) scopeManager.Deactivate();
 		
 		// TODO end of the game

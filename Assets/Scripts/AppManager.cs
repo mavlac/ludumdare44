@@ -4,10 +4,62 @@ using System.Collections;
 
 public class AppManager : MonoBehaviour {
 
+	
+	public enum AppState {
+		Title,
+		Game,
+		Menu
+	}
+	
+	public AppState appState = AppState.Title;
+	
+	[Space]
+	public ScreenFader screenFader;
+	public GameManager gameManager;
+	public GUI gui;
+	
 
 	public static bool mouselookReady = false;
 	
-
+	float defaultTimescale;
+	
+	
+	
+	void Awake()
+	{
+		defaultTimescale = Time.timeScale;
+		
+		screenFader.FadeScreenIn(true);
+	}
+	
+	void Start()
+	{
+		FreezeTimescale();
+	}
+	
+	
+	
+	
+	
+	// game phases
+	public void BeginGame()
+	{
+		RestoreTimescale();
+		LockCursor();
+		
+		appState = AppState.Game;
+	}
+	
+	public void MenuEntered()
+	{
+		gui.ShowMenu();
+		
+		appState = AppState.Menu;
+	}
+	
+	
+	
+	
 
 	// scene management
 	
@@ -28,6 +80,22 @@ public class AppManager : MonoBehaviour {
 	}*/
 
 
+
+
+	// timescale management
+	
+	public void FreezeTimescale()
+	{
+		Time.timeScale = 0f;
+	}
+
+	public void RestoreTimescale()
+	{
+		Time.timeScale = defaultTimescale;
+	}
+	
+	
+	
 
 
 	// mouse cursor management

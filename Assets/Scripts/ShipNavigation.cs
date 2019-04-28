@@ -18,6 +18,9 @@ public class ShipNavigation : MonoBehaviour
 	
 	public void InitiateTurn(int dir)
 	{
+		if (turning) return;
+		
+		
 		helmWheel.Turn(dir);
 		penguin.WaveWing(dir);
 		
