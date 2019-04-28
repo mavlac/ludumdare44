@@ -6,7 +6,11 @@ public class Ship : MonoBehaviour
 {
 	public GameManager gameManager;
 	
-	ShipMovement shipMovement;
+	[HideInInspector]
+	public ShipMovement shipMovement;
+	[HideInInspector]
+	public ShipNavigation shipNavigation;
+	
 	RockCradle rockCradle;
 	
 	bool collided = false;
@@ -14,6 +18,7 @@ public class Ship : MonoBehaviour
 	void Awake()
 	{
 		shipMovement = GetComponent<ShipMovement>();
+		shipNavigation = GetComponent<ShipNavigation>();
 		rockCradle = GetComponentInChildren<RockCradle>();
 	}
 	

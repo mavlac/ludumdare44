@@ -11,7 +11,8 @@ public class ShipMovement : MonoBehaviour
 	bool slowdown = false;
 	float forwardSpeed;
 	
-	Rigidbody rb;
+	[HideInInspector]
+	public Rigidbody rb;
 	
 	
 	

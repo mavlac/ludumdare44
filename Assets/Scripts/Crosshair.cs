@@ -13,6 +13,7 @@ public class Crosshair : MonoBehaviour
 	public GameObject hintScope;
 	public Color dotHintColor;
 	public GameObject hintNav;
+	public GameObject hintNavWait;
 	public Color dotNavColor;
 	
 	
@@ -30,23 +31,34 @@ public class Crosshair : MonoBehaviour
 		centerDot.color = dotHintColor;
 		hintScope.SetActive(!gameManager.playerUsedScopeAction);
 		hintNav.SetActive(false);
+		hintNavWait.SetActive(false);
 	}
 	public void SetHintToNav()
 	{
 		centerDot.color = dotNavColor;
 		hintScope.SetActive(false);
 		hintNav.SetActive(!gameManager.playerUsedNavAction);
+		hintNavWait.SetActive(false);
+	}
+	public void SetHintToWait()
+	{
+		centerDot.color = dotNavColor;
+		hintScope.SetActive(false);
+		hintNav.SetActive(false);
+		hintNavWait.SetActive(true);
 	}
 	public void NoHint()
 	{
 		centerDot.color = dotDefaultColor;
 		hintScope.SetActive(false);
 		hintNav.SetActive(false);
+		hintNavWait.SetActive(false);
 	}
 	public void HideEverything()
 	{
 		centerDot.color = new Color(0,0,0,0); // transparent
 		hintScope.SetActive(false);
 		hintNav.SetActive(false);
+		hintNavWait.SetActive(false);
 	}
 }

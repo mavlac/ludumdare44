@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour {
 #if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.R)) appManager.RestartCurrentScene();
 		if (Input.GetKeyDown(KeyCode.K)) ship.Collision();
+		
+		if (Input.GetKeyDown(KeyCode.A)) ship.shipNavigation.InitiateTurn(-1);
+		if (Input.GetKeyDown(KeyCode.D)) ship.shipNavigation.InitiateTurn(1);
 #endif
 		
 		// escape
@@ -111,8 +114,17 @@ public class GameManager : MonoBehaviour {
 			}
 			else if (horizLook > (180f-rearAngle/2) && horizLook < (180+rearAngle/2))
 			{
-				availableAction = ClickAction.Nav;
-				crosshair.SetHintToNav();
+				if (!ship.shipNavigation.turning)
+				{
+					availableAction = ClickAction.Nav;
+					crosshair.SetHintToNav();
+				}
+				else
+				{
+					// already turning in progress
+					availableAction = ClickAction.No;
+					crosshair.SetHintToWait();
+				}
 			}
 			else
 			{
@@ -134,6 +146,7 @@ public class GameManager : MonoBehaviour {
 		playerAlive = false;
 		
 		cameraRig.Shake();
+		ship.shipNavigation.penguin.BothWingsUp();
 		
 		Debug.Log("ship collision!");
 		
