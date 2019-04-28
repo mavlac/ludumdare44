@@ -176,11 +176,17 @@ public class GameManager : MonoBehaviour {
 					// option of selection
 					if (playerLook.transform.localEulerAngles.y < navSelectionPlayerYOrigin - selDeadZone)
 					{
+						if (availableAction == ClickAction.No)
+							appManager.soundManager.Play(SoundManager.soundId.uiClick);
+						
 						crosshair.SetHintToNavOptions(-1);
 						availableAction = ClickAction.NavigateLeft;
 					}
 					else if (playerLook.transform.localEulerAngles.y > navSelectionPlayerYOrigin + selDeadZone)
 					{
+						if (availableAction == ClickAction.No)
+							appManager.soundManager.Play(SoundManager.soundId.uiClick);
+						
 						crosshair.SetHintToNavOptions(1);
 						availableAction = ClickAction.NavigateRight;
 					}
