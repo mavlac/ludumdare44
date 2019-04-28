@@ -103,11 +103,13 @@ public class AppManager : MonoBehaviour {
 	
 	public void UnlockCursor()
 	{
+		Cursor.visible = true;
 		Cursor.lockState = CursorLockMode.None;
 		mouselookReady = false;
 	}
 	public void LockCursor()
 	{
+		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 		StartCoroutine(DelayedMouseLook());
 	}
