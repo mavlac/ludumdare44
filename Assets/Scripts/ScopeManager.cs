@@ -35,7 +35,7 @@ public class ScopeManager : MonoBehaviour
 		gameManager.crosshair.HideEverything();
 		scoping = true;
 		
-		gameManager.appManager.soundManager.Play(SoundManager.soundId.scopeIn);
+		gameManager.appManager.soundManager.Play(SoundManager.soundId.scopeIn, 0.8f);
 		
 		StopAllCoroutines();
 		StartCoroutine(CameraFOVZoomCoroutine());

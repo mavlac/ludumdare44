@@ -8,7 +8,12 @@ public class PlayerLook : MonoBehaviour
 	public Transform playerBody;
 	public Transform playerCamera;
 	
-	public float mouseSensitivity;
+	[SerializeField]
+	float mouseSensitivity;
+	public float MouseSensitivity {
+		get { return mouseSensitivity; }
+		set { mouseSensitivity = Mathf.Clamp(value, 50f, 150f);}
+	}
 	public bool invertVertical = true;
 	
 	public float clampY = 90f;

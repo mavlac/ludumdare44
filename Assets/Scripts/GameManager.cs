@@ -82,10 +82,16 @@ public class GameManager : MonoBehaviour {
 				//appManager.RestartCurrentScene();
 				
 				// now as a callback of fade
-				appManager.screenFader.FadeScreenOut();
+				appManager.screenFader.FadeScreenOut(ScreenFader.FadeOutCallback.RestartScene);
 			}
 		}
 		
+		// mouse sensitivity
+		if (Input.GetKey(KeyCode.Alpha1)) playerLook.MouseSensitivity = 33f;
+		if (Input.GetKey(KeyCode.Alpha2)) playerLook.MouseSensitivity = 66f;
+		if (Input.GetKey(KeyCode.Alpha3)) playerLook.MouseSensitivity = 100f;
+		if (Input.GetKey(KeyCode.Alpha4)) playerLook.MouseSensitivity = 133f;
+		if (Input.GetKey(KeyCode.Alpha5)) playerLook.MouseSensitivity = 166f;
 		
 		
 		

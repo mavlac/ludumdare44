@@ -133,7 +133,8 @@ public class AppManager : MonoBehaviour {
 	public void Exit()
 	{
 #if UNITY_EDITOR
-		Debug.Log("Unable to exit app in editor");
+		Debug.Log("Exitting app in editor");
+		UnityEditor.EditorApplication.isPlaying = false;
 #endif
 #if UNITY_ANDROID && !UNITY_EDITOR
 		using (AndroidJavaClass javaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) {

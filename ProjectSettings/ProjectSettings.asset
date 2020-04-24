@@ -119,7 +119,29 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 12800000, guid: 20541fe816c3d1a9cb8dc0e0f00eaffe, type: 3}
+  - {fileID: 2100000, guid: 12766c08731a2d6fa8eae1e6988479ac, type: 2}
+  - {fileID: 2100000, guid: 71702fb84309884269c49011895c4a9b, type: 2}
+  - {fileID: 2100000, guid: 7dabb6181d5177040b18bf1136127a7d, type: 2}
+  - {fileID: 2100000, guid: 444b531f26c0499bc9da638af5eb2072, type: 2}
+  - {fileID: 2100000, guid: cc5f67844c702021caa17a4e55866024, type: 2}
+  - {fileID: 2100000, guid: 948a3d4ca4afdc2e78d55b7ed47faf58, type: 2}
+  - {fileID: 2100000, guid: b187b05b2ad554fc895afeac257ddcfe, type: 2}
+  - {fileID: 8300000, guid: 9018b2f46b9d897c0a2cad77c59a0b07, type: 3}
+  - {fileID: 8300000, guid: 0342920c47efe9138a65fec017028992, type: 3}
+  - {fileID: 8300000, guid: 6d98910affea2b6679aea901ddbd9e8f, type: 3}
+  - {fileID: 8300000, guid: f2aa2d49c1b24e765afb9e0a65fa8661, type: 3}
+  - {fileID: 8300000, guid: 0cc4d0d5a8ad9b1be8839d84fc2b033f, type: 3}
+  - {fileID: 8300000, guid: 66cfae71c4980115c9009ecb88a18afe, type: 3}
+  - {fileID: 8300000, guid: 7d2c1efae846e6a7fb0617e836752a12, type: 3}
+  - {fileID: 2800000, guid: 0d533c3d644ab56cab313dd0668eafba, type: 3}
+  - {fileID: 2800000, guid: a59d933daa7663b5f829a95cfbb59f83, type: 3}
+  - {fileID: 2800000, guid: ddaaacf02d9daf874a743c478963597d, type: 3}
+  - {fileID: 2800000, guid: 9fa9141f6ca8758d98cce516439cc6fd, type: 3}
+  - {fileID: 2800000, guid: 705e2fd0108a06bdbacc5dc65051ca75, type: 3}
+  - {fileID: 2800000, guid: fd6b6a2789f2f2f63bf259b0747d2ce3, type: 3}
+  - {fileID: 2800000, guid: 705e2fd0108a06bdbacc5dc65051ca75, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1

@@ -4,6 +4,12 @@ using System.Collections;
 
 public class ScreenFader : MonoBehaviour {
 	
+	public enum FadeOutCallback {
+		None,
+		RestartScene,
+		QuitApp
+	}
+	
 	public AppManager appManager;
 	
 	[Space]
@@ -28,19 +34,19 @@ public class ScreenFader : MonoBehaviour {
 
 
 
-	public void FadeScreenOut() {
-		FadeScreenOut(defaultColor);
+	public void FadeScreenOut(FadeOutCallback callback) {
+		FadeScreenOut(defaultColor, callback);
 	}
-	public void FadeScreenOut(Color fadeTo)
+	public void FadeScreenOut(Color fadeTo, FadeOutCallback callback)
 	{
 		Reset();
 		image.color = fadeTo;
 		image.enabled = true;
 		
 		StartCoroutine(
-			FadeScreenOutCoroutine(lerpSpeed));
+			FadeScreenOutCoroutine(lerpSpeed, callback));
 	}
-	IEnumerator FadeScreenOutCoroutine(float speed)
+	IEnumerator FadeScreenOutCoroutine(float speed, FadeOutCallback callback)
 	{
 		for (float t = 0f; t <= 1f; t+= Time.unscaledDeltaTime * speed)
 		{
@@ -50,13 +56,25 @@ public class ScreenFader : MonoBehaviour {
 		
 		SetAlpha(opaque);
 		
-		FadeScreenOutCallback();
+		FadeScreenOutCallback(callback);
 	}
 	
-	public void FadeScreenOutCallback()
+	public void FadeScreenOutCallback(FadeOutCallback callback)
 	{
-		appManager.UnlockCursor();
-		appManager.RestartCurrentScene();
+		
+		switch(callback)
+		{
+			case FadeOutCallback.RestartScene:
+				appManager.UnlockCursor();
+				appManager.RestoreTimescale();
+				appManager.RestartCurrentScene();
+				break;
+				
+			case FadeOutCallback.QuitApp:
+				appManager.UnlockCursor();
+				appManager.Exit();
+				break;
+		}
 	}
 	
 	

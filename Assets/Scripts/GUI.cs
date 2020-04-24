@@ -19,6 +19,7 @@ public class GUI : MonoBehaviour
 	
 	[Space]
 	public Text newGameButtonLabel;
+	public Text quitGameButtonLabel;
 	public Toggle invertMouse;
 	
 	
@@ -53,8 +54,9 @@ public class GUI : MonoBehaviour
 		
 		RestoreMenuOverlay();
 		
-		// called from game, not from scene begin
+		// called from game, not from scene begin (that is default menu labels - title screen)
 		newGameButtonLabel.text = "CONTINUE";
+		quitGameButtonLabel.text = "BACK TO TITLE";
 	}
 	
 	
@@ -135,6 +137,17 @@ public class GUI : MonoBehaviour
 		menu.SetActive(false);
 		
 		appManager.soundManager.Play(SoundManager.soundId.uiClick);
-		appManager.Exit();
+		
+		switch(appManager.appState)
+		{
+			case AppManager.AppState.Title:
+				//appManager.Exit();
+				appManager.screenFader.FadeScreenOut(ScreenFader.FadeOutCallback.QuitApp);
+				break;
+			
+			case AppManager.AppState.Menu:
+				appManager.screenFader.FadeScreenOut(ScreenFader.FadeOutCallback.RestartScene);
+				break;
+		}
 	}
 }
